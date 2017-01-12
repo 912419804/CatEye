@@ -14,7 +14,21 @@ public class CatApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        //注册Activity生命周期，用于ActivityManager进行Activity的管理
+        registerActivityLifecycleCallbacks();
+        initLogSetting();
+    }
+
+    /**
+     * 注册Activity生命周期回调方法，用于ActivityManager进行Activity的管理
+     */
+    private void registerActivityLifecycleCallbacks() {
         registerActivityLifecycleCallbacks(ActivityManager.getInstance());
+    }
+
+    /**
+     * 设置Logger框架的配置(可选)
+     */
+    private void initLogSetting() {
+        // TODO: 2017/1/12
     }
 }
