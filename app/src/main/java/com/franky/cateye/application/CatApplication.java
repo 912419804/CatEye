@@ -18,6 +18,7 @@ public class CatApplication extends Application {
         super.onCreate();
         registerActivityLifecycleCallbacks();
         initLogSetting();
+
     }
 
     /**

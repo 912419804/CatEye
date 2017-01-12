@@ -97,4 +97,9 @@ public class Log {
         if (isDebug) Logger.xml(xml);
     }
 
+    //提供原生Log来打印Activity的生命周期回调
+    public static void d(String tag,String message){
+        if (isDebug) android.util.Log.d(tag,message);
+    }
+
 }
