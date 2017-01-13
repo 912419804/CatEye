@@ -22,3 +22,5 @@
   public *;
 }
 -keepresourcexmlelements manifest/application/meta-data@value=GlideModule
+#Picasso图片混淆
+-dontwarn com.squareup.okhttp.**

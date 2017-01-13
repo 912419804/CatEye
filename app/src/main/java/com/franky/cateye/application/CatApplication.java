@@ -2,6 +2,8 @@ package com.franky.cateye.application;
 
 import android.app.Application;
 
+import com.franky.cateye.img.CatImgLoader;
+import com.franky.cateye.img.GlideLoader;
 import com.franky.cateye.manager.ActivityManager;
 import com.franky.cateye.utils.ApplicationUtil;
 import com.franky.cateye.utils.Log;
@@ -18,7 +20,7 @@ public class CatApplication extends Application {
         super.onCreate();
         registerActivityLifecycleCallbacks();
         initLogSetting();
-
+        initImageLoader();
     }
 
     /**
@@ -26,6 +28,13 @@ public class CatApplication extends Application {
      */
     private void registerActivityLifecycleCallbacks() {
         registerActivityLifecycleCallbacks(ActivityManager.getInstance());
+    }
+
+    /**
+     * 图片框架初始化
+     */
+    private void initImageLoader(){
+        CatImgLoader.init(GlideLoader.class);
     }
 
     /**

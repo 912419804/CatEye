@@ -1,13 +1,13 @@
 package com.franky.cateye.activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.franky.cateye.R;
+import com.franky.cateye.base.CatActivity;
 import com.franky.cateye.utils.Log;
 import com.orhanobut.logger.Logger;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends CatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
