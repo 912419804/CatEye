@@ -24,3 +24,18 @@
 -keepresourcexmlelements manifest/application/meta-data@value=GlideModule
 #Picasso图片混淆
 -dontwarn com.squareup.okhttp.**
+#JSON混淆
+-keepclassmembers class * {
+   public <init> (org.json.JSONObject);
+}
+#友盟混淆
+-keep public class com.franky.cateye.R$*{
+public static final int *;
+}
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+#腾讯bugly混淆
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}

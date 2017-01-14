@@ -5,6 +5,7 @@ import android.app.Application;
 import android.os.Bundle;
 
 import com.franky.cateye.utils.Log;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * Created by Administrator on 2017/1/11.
@@ -42,11 +43,14 @@ public class ActivityManager implements Application.ActivityLifecycleCallbacks {
     @Override
     public void onActivityResumed(Activity activity) {
         Log.d(activity.getClass().getSimpleName(),"[Resumed]");
+        MobclickAgent.onResume(activity);//友盟
     }
 
     @Override
     public void onActivityPaused(Activity activity) {
         Log.d(activity.getClass().getSimpleName(),"[Paused]");
+        MobclickAgent.onPause(activity);
+
     }
 
     @Override
