@@ -45,5 +45,9 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
     compile 'com.umeng.analytics:analytics:latest.integration'//友盟
     compile 'com.tencent.bugly:crashreport:latest.release'//腾讯bugly
+    compile 'com.facebook.fresco:fresco:1.0.0'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile "io.reactivex.rxjava2:rxjava:2.0.4"
 
 }

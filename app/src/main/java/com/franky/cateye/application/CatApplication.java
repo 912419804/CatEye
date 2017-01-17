@@ -37,7 +37,8 @@ public class CatApplication extends Application {
     }
 
     /**
-     * 图片框架初始化
+     * 图片框架初始化,传入相应的ImageLoader实现类即可
+     * 可选Glide,Fresco,Picasso
      */
     private void initImageLoader() {
         CatImgLoader.init(GlideLoader.class);
