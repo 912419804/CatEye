@@ -3,7 +3,6 @@ package com.franky.cateye.application;
 import android.app.Application;
 import android.content.Context;
 
-import com.franky.cateye.BuildConfig;
 import com.franky.cateye.img.CatImgLoader;
 import com.franky.cateye.img.GlideLoader;
 import com.franky.cateye.manager.ActivityManager;
@@ -25,6 +24,7 @@ public class CatApplication extends Application {
         registerActivityLifecycleCallbacks();
         initLogSetting();
         initImageLoader();
+        initEventBus();
         initMonitor();
     }
 
@@ -64,6 +64,11 @@ public class CatApplication extends Application {
         // 设置是否为上报进程
         UserStrategy strategy = new UserStrategy(context);
         strategy.setUploadProcess(processName == null || processName.equals(packageName));
-        CrashReport.initCrashReport(getApplicationContext(), "9baab4dc67", BuildConfig.DEBUG);
+//        CrashReport.initCrashReport(getApplicationContext(), "9baab4dc67", BuildConfig.DEBUG);
+        CrashReport.initCrashReport(getApplicationContext(), "9baab4dc67", false);
+    }
+
+    private void initEventBus(){
+//        EventBus.builder().addIndex(new MyEventBusIndex()).installDefaultEventBus();
     }
 }

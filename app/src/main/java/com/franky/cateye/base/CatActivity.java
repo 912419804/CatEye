@@ -16,6 +16,11 @@ public class CatActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
+        initView();
+    }
+
+    protected void initView(){
+
     }
 
     @Override
@@ -23,4 +28,5 @@ public class CatActivity extends AppCompatActivity {
         super.setContentView(view);
         ButterKnife.bind(this);
     }
+
 }
