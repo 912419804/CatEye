@@ -3,7 +3,7 @@ package com.franky.cateye.activity;
 import android.os.Bundle;
 
 import com.franky.cateye.R;
-import com.franky.cateye.base.CatActivity;
+import com.franky.cateye.activity.base.CatActivity;
 import com.franky.cateye.utils.Log;
 import com.orhanobut.logger.Logger;
 

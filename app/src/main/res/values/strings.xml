@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">CatEye</string>
+    <string name="splash_words_en">A day is a miniature of eternity</string>
+    <string name="splash_words_cn">一天是永恒的缩影</string>
+    <string name="splash_title_en">Cat Eye</string>
+    <string name="splash_title_cn">猫眼</string>
 </resources>
