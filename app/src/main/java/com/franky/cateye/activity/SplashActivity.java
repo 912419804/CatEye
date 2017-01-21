@@ -1,7 +1,6 @@
 package com.franky.cateye.activity;
 
 import android.view.View;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
@@ -47,7 +46,6 @@ public class SplashActivity extends CatActivity {
     @Override
     protected void initView() {
         super.initView();
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash);
         final Animation landing_zoom_in = AnimationUtils.loadAnimation(this, R.anim.landing_zoom_in);
         final Animation landing_alpha_out = AnimationUtils.loadAnimation(this, R.anim.landing_alpha_out);

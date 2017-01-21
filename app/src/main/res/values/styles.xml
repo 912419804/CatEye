@@ -8,4 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!--解决启动白屏或者黑屏问题,在启动页加入该主题,缺点是点击启动图标后,
+    启动速度减慢,但尚可接受，主题为透明后实际上启动时将window的白屏背景设为透明了-->
+    <style name="Theme.AppStartLoadTranslucent" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
 </resources>
