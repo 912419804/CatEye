@@ -83,5 +83,12 @@ public class SplashActivity extends CatActivity {
                 iv_eye_inner.setAnimation(landing_rotate);
             }
         });
+        landing_rotate.setAnimationListener(new DefaultAnimationListener(){
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                super.onAnimationEnd(animation);
+                startActivity(HomeActivity.class,true);
+            }
+        });
     }
 }
