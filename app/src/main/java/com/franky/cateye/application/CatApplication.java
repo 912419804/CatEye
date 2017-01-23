@@ -8,6 +8,7 @@ import com.franky.cateye.img.GlideLoader;
 import com.franky.cateye.manager.ActivityManager;
 import com.franky.cateye.utils.ApplicationUtil;
 import com.franky.cateye.utils.Log;
+import com.franky.cateye.utils.Utils;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.bugly.crashreport.CrashReport.UserStrategy;
 
@@ -21,11 +22,16 @@ public class CatApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        initContext();
         registerActivityLifecycleCallbacks();
         initLogSetting();
         initImageLoader();
         initEventBus();
         initMonitor();
+    }
+
+    private void initContext() {
+        Utils.init(this);
     }
 
     /**
