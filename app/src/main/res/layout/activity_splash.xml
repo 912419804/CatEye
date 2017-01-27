@@ -84,7 +84,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/dp_10"
         android:text="@string/splash_title_cn"
-        android:textColor="@color/c_ffffff"
+        android:textColor="@color/c_white"
         app:font="FZLanTingHeiS-DB1-GB-Regular.TTF"/>
 
     <com.franky.cateye.view.FontTextView

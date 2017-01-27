@@ -1,6 +1,6 @@
 package com.franky.cateye.view.tab;
 
-import com.franky.cateye.fragment.base.CatFragment;
+import com.franky.cateye.base.CatFragment;
 
 /**
  * Created by yx on 16/4/3.
@@ -31,12 +31,13 @@ public class TabItem {
         this.tagFragmentClz = tagFragmentClz;
     }
 
-    public void initView() {
+    public CatFragment initView() {
         try {
-            this.tagFragmentClz.newInstance();
+             return this.tagFragmentClz.newInstance();
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
     }
 }
 

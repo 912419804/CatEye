@@ -4,8 +4,10 @@
     <string name="splash_words_cn">一天是永恒的缩影</string>
     <string name="splash_title_en">Cat Eye</string>
     <string name="splash_title_cn">猫眼</string>
-    <string name="android">Android</string>
-    <string name="ios">IOS</string>
-    <string name="welfare">精选</string>
-    <string name="video">视频</string>
+    <string name="fragment_android">Android</string>
+    <string name="fragment_ios">IOS</string>
+    <string name="fragment_welfare">精选</string>
+    <string name="fragment_video">视频</string>
+    <string name="item_android_source">来源：</string>
+    <string name="toast_intent_data_error">参数异常,请检查</string>
 </resources>

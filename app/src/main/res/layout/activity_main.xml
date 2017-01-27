@@ -3,14 +3,17 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/c_bg"
                 tools:context=".activity.HomeActivity">
 
     <FrameLayout
         android:id="@+id/fl_main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_above="@+id/tab_layout"
         />
+
+    <include layout="@layout/item_android_list"/>
 
     <com.franky.cateye.view.tab.TabLayout
         android:id="@+id/tab_layout"

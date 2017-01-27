@@ -10,7 +10,7 @@ import com.orhanobut.logger.Settings;
  * Log打印,使用自己定义BuildConfig.LOG_DEBUG来动态控制日志输出
  */
 
-public class Log {
+public class CatLog {
     private static boolean isDebug = BuildConfig.LOG_DEBUG;
 
     /**

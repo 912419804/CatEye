@@ -1,6 +1,6 @@
 package com.franky.cateye.view.tab;
 
-import com.franky.cateye.fragment.base.CatFragment;
+import com.franky.cateye.base.CatFragment;
 
 /**
  * Created by yx on 16/4/6.

@@ -88,10 +88,10 @@ public class NetworkUtils {
         ShellUtils.CommandResult result = ShellUtils.execCmd("ping -c 1 -w 1 223.5.5.5", false);
         boolean ret = result.result == 0;
         if (result.errorMsg != null) {
-            Log.d("isAvailableByPing errorMsg", result.errorMsg);
+            CatLog.d("isAvailableByPing errorMsg", result.errorMsg);
         }
         if (result.successMsg != null) {
-            Log.d("isAvailableByPing successMsg", result.successMsg);
+            CatLog.d("isAvailableByPing successMsg", result.successMsg);
         }
         return ret;
     }

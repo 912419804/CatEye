@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
 
-import com.franky.cateye.utils.Log;
+import com.franky.cateye.utils.CatLog;
 import com.umeng.analytics.MobclickAgent;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by Administrator on 2017/1/11.
@@ -15,6 +17,10 @@ import com.umeng.analytics.MobclickAgent;
 public class ActivityManager implements Application.ActivityLifecycleCallbacks {
 
     private static ActivityManager instance;
+    /**
+     * 计算activity数量
+     **/
+    private static volatile AtomicInteger ACTIVITY_COUNT = new AtomicInteger(0);
 
     private ActivityManager() {
     }
@@ -32,39 +38,41 @@ public class ActivityManager implements Application.ActivityLifecycleCallbacks {
 
     @Override
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-        Log.d(activity.getClass().getSimpleName(),"[Created]");
+        ACTIVITY_COUNT.getAndIncrement();
+        CatLog.d(activity.getClass().getSimpleName(), "[Created]");
     }
 
     @Override
     public void onActivityStarted(Activity activity) {
-        Log.d(activity.getClass().getSimpleName(),"[Started]");
+        CatLog.d(activity.getClass().getSimpleName(), "[Started]");
     }
 
     @Override
     public void onActivityResumed(Activity activity) {
-        Log.d(activity.getClass().getSimpleName(),"[Resumed]");
+        CatLog.d(activity.getClass().getSimpleName(), "[Resumed]");
         MobclickAgent.onResume(activity);//友盟
     }
 
     @Override
     public void onActivityPaused(Activity activity) {
-        Log.d(activity.getClass().getSimpleName(),"[Paused]");
+        CatLog.d(activity.getClass().getSimpleName(), "[Paused]");
         MobclickAgent.onPause(activity);
 
     }
 
     @Override
     public void onActivityStopped(Activity activity) {
-        Log.d(activity.getClass().getSimpleName(),"[Stopped]");
+        ACTIVITY_COUNT.getAndDecrement();
+        CatLog.d(activity.getClass().getSimpleName(), "[Stopped]");
     }
 
     @Override
     public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-        Log.d(activity.getClass().getSimpleName(),"[SaveInstanceState]");
+        CatLog.d(activity.getClass().getSimpleName(), "[SaveInstanceState]");
     }
 
     @Override
     public void onActivityDestroyed(Activity activity) {
-        Log.d(activity.getClass().getSimpleName(),"[Destroyed]");
+        CatLog.d(activity.getClass().getSimpleName(), "[Destroyed]");
     }
 }

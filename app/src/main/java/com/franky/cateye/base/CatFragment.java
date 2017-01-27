@@ -1,4 +1,4 @@
-package com.franky.cateye.fragment.base;
+package com.franky.cateye.base;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -7,8 +7,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.franky.cateye.activity.base.CatActivity;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -31,6 +29,19 @@ public class CatFragment extends Fragment implements View.OnClickListener {
         } else {
             throw new IllegalArgumentException("context must be CatActivity!");
         }
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        handleBundle(savedInstanceState);
+        super.onCreate(savedInstanceState);
+    }
+
+    /**
+     * 处理fragment携带参数的情况
+     * @param savedInstanceState bundle
+     */
+    protected void handleBundle(Bundle savedInstanceState) {
 
     }
 

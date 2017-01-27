@@ -7,7 +7,7 @@ import com.franky.cateye.img.CatImgLoader;
 import com.franky.cateye.img.GlideLoader;
 import com.franky.cateye.manager.ActivityManager;
 import com.franky.cateye.utils.ApplicationUtil;
-import com.franky.cateye.utils.Log;
+import com.franky.cateye.utils.CatLog;
 import com.franky.cateye.utils.Utils;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.bugly.crashreport.CrashReport.UserStrategy;
@@ -55,7 +55,7 @@ public class CatApplication extends Application {
      */
     private void initLogSetting() {
         //将全局Log的Tag设置为应用名
-        Log.init(ApplicationUtil.getApplicationName(this));
+        CatLog.init(ApplicationUtil.getApplicationName(this));
     }
 
     /**

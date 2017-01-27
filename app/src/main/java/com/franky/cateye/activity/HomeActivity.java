@@ -3,7 +3,11 @@ package com.franky.cateye.activity;
 import android.widget.FrameLayout;
 
 import com.franky.cateye.R;
-import com.franky.cateye.activity.base.CatActivity;
+import com.franky.cateye.base.CatActivity;
+import com.franky.cateye.fragment.AndroidFragment;
+import com.franky.cateye.fragment.IOSFragment;
+import com.franky.cateye.fragment.VideoFragment;
+import com.franky.cateye.fragment.WelfareFragment;
 import com.franky.cateye.view.tab.TabItem;
 import com.franky.cateye.view.tab.TabLayout;
 
@@ -33,10 +37,10 @@ public class HomeActivity extends CatActivity implements TabLayout.OnTabClickLis
     @Override
     protected void initData() {
         super.initData();
-        tabs.add(new TabItem(R.drawable.selector_tab_triangle, R.string.android));
-        tabs.add(new TabItem(R.drawable.selector_tab_circle, R.string.ios));
-        tabs.add(new TabItem(R.drawable.selector_tab_cross, R.string.welfare));
-        tabs.add(new TabItem(R.drawable.selector_tab_square, R.string.video));
+        tabs.add(new TabItem(R.drawable.selector_tab_triangle, R.string.fragment_android, AndroidFragment.class));
+        tabs.add(new TabItem(R.drawable.selector_tab_circle, R.string.fragment_ios, IOSFragment.class));
+        tabs.add(new TabItem(R.drawable.selector_tab_cross, R.string.fragment_welfare, WelfareFragment.class));
+        tabs.add(new TabItem(R.drawable.selector_tab_square, R.string.fragment_video, VideoFragment.class));
         tab_layout.initData(tabs, this);
         tab_layout.setCurrentTab(0);
     }
@@ -44,42 +48,11 @@ public class HomeActivity extends CatActivity implements TabLayout.OnTabClickLis
     @Override
     public void onTabClick(TabItem tabItem) {
         tab_layout.setCurrentTab(tabs.indexOf(tabItem));
+        addFragment(tabItem.initView());
     }
 
-    //    @Override
-//    protected void initData() {
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl(Constants.BASE_URL)
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-//                .build();
-//        GirlService girlService = retrofit.create(GirlService.class);
-//        girlService.getData(10, 1)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Observer<Girls>() {
-//                    @Override
-//                    public void onSubscribe(Disposable d) {
-//                    }
-//
-//                    @Override
-//                    public void onNext(Girls girls) {
-//                        List<Girl> results = girls.getResults();
-//                        for (Girl girl : results) {
-//                            Log.d(girl);
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onComplete() {
-//
-//                    }
-//                });
-//
-//    }
+    @Override
+    protected int getFragmentContentId() {
+        return R.id.fl_main;
+    }
 }

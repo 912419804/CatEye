@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.franky.cateye.R;
-import com.franky.cateye.activity.base.CatActivity;
+import com.franky.cateye.base.CatActivity;
 import com.franky.cateye.anim.DefaultAnimationListener;
 import com.franky.cateye.view.FontTextView;
 

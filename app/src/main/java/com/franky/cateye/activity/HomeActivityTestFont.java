@@ -1,6 +1,6 @@
 package com.franky.cateye.activity;
 
-import com.franky.cateye.activity.base.CatActivity;
+import com.franky.cateye.base.CatActivity;
 
 /**
  * 仿开眼文字顺序出现效果(需完善)
@@ -28,14 +28,14 @@ public class HomeActivityTestFont extends CatActivity {
 //        mHandler.sendEmptyMessage(1);
 //        mHandler.sendEmptyMessage(2);
 //        mHandler.sendEmptyMessage(3);
-////        Log.d("hello");
-////        Log.e("hello");
-////        Log.w("hello");
-////        Log.v("hello");
-////        Log.wtf("hello");
-////        Log.json("{'abc':'123'}");
-////        Log.xml("<A><b>xml test</b></A>");
-////        Log.log(Logger.DEBUG, "tag", "message", new Throwable());
+////        CatLog.d("hello");
+////        CatLog.e("hello");
+////        CatLog.w("hello");
+////        CatLog.v("hello");
+////        CatLog.wtf("hello");
+////        CatLog.json("{'abc':'123'}");
+////        CatLog.xml("<A><b>xml test</b></A>");
+////        CatLog.log(Logger.DEBUG, "tag", "message", new Throwable());
 //
 //
 //    }
