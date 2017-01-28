@@ -5,7 +5,7 @@ package com.franky.cateye.bean;
  * 通用数据封装类
  */
 
-public class Data <T>{
+public class GankData<T>{
     private boolean error;
     private T results;
 

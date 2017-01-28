@@ -3,6 +3,7 @@ package com.franky.cateye.bean;
 import com.franky.cateye.api.GirlService;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by Administrator on 2017/1/25.
@@ -21,6 +22,15 @@ public class Girl implements Serializable {
     private String url;
     private boolean used;
     private String who;
+    private List<String> images;
+
+    public List<String> getImages() {
+        return images;
+    }
+
+    public void setImages(List<String> images) {
+        this.images = images;
+    }
 
     public String get_id() {
         return _id;

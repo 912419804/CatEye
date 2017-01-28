@@ -49,3 +49,7 @@ public static final int *;
 -keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
     <init>(java.lang.Throwable);
 }
+#BaseRecyclerViewAdapterHelper
+-keep class com.chad.library.adapter.** {
+   *;
+}

@@ -31,7 +31,7 @@ public class HomeActivity extends CatActivity implements TabLayout.OnTabClickLis
     @Override
     protected void initView() {
         super.initView();
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_home);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class HomeActivity extends CatActivity implements TabLayout.OnTabClickLis
         tabs.add(new TabItem(R.drawable.selector_tab_cross, R.string.fragment_welfare, WelfareFragment.class));
         tabs.add(new TabItem(R.drawable.selector_tab_square, R.string.fragment_video, VideoFragment.class));
         tab_layout.initData(tabs, this);
-        tab_layout.setCurrentTab(0);
+        onTabClick(tabs.get(0));
     }
 
     @Override

@@ -6,9 +6,9 @@ import java.util.List;
 
 /**
  * Created by Administrator on 2017/1/25.
- * {@link GirlService} 支持的 list bean
+ * {@link GirlService} 支持的bean
  */
 
-public class Girls extends GankData<List<Girl>> {
+public class Androids extends GankData<List<Android>> {
 
 }

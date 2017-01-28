@@ -1,5 +1,7 @@
 package com.franky.cateye.api;
 
+import com.franky.cateye.bean.Androids;
+
 import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -14,5 +16,5 @@ public interface AndroidService {
 //    http://gank.io/api/data/Android/10/1
 
     @GET("data/Android/{num}/{page}")
-    Observable<String> getData(@Path("num") int num, @Path("page") int page);
+    Observable<Androids> getData(@Path("num") int num, @Path("page") int page);
 }

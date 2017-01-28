@@ -48,16 +48,26 @@ public class CatFragment extends Fragment implements View.OnClickListener {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = initView(inflater, savedInstanceState);
-        unbinder = ButterKnife.bind(rootView);
+        View rootView = getView(inflater, savedInstanceState);
+        unbinder = ButterKnife.bind(this,rootView);
         return rootView;
     }
 
-    protected View initView(LayoutInflater inflater, @Nullable Bundle savedInstanceState) {
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        initView();
+        initData();
+    }
+
+    protected void initView() {
+    }
+
+    protected View getView(LayoutInflater inflater, @Nullable Bundle savedInstanceState) {
         return null;
     }
 
-    protected void initData() {
+    public void initData() {
     }
 
 

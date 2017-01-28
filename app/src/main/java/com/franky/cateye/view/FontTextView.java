@@ -3,6 +3,7 @@ package com.franky.cateye.view;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
@@ -14,6 +15,9 @@ import com.franky.cateye.R;
  */
 
 public class FontTextView extends TextView {
+
+    private static final String DEFUALT_FONT = "FZLanTingHeiS-L-GB-Regular.TTF";
+
     public FontTextView(Context context) {
         this(context, null);
     }
@@ -26,6 +30,9 @@ public class FontTextView extends TextView {
         super(context, attrs, defStyleAttr);
         TypedArray ta = context.getTheme().obtainStyledAttributes(attrs, R.styleable.FontTextView, defStyleAttr, 0);
         String font = ta.getString(R.styleable.FontTextView_font);
+        if (TextUtils.isEmpty(font)){
+            font = DEFUALT_FONT;
+        }
         Typeface fontFace = Typeface.createFromAsset(getContext().getAssets(),
                 "fonts/"+font);
         // 字体文件必须是true type font的格式(ttf)；

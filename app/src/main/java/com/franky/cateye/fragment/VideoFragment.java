@@ -16,7 +16,7 @@ import com.franky.cateye.base.CatFragment;
 public class VideoFragment extends CatFragment {
 
     @Override
-    protected View initView(LayoutInflater inflater, @Nullable Bundle savedInstanceState) {
+    protected View getView(LayoutInflater inflater, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_video,null,false);
     }
 }

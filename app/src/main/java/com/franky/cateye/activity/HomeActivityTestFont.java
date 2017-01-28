@@ -24,7 +24,7 @@ public class HomeActivityTestFont extends CatActivity {
 //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
+//        setContentView(R.layout.activity_home);
 //        mHandler.sendEmptyMessage(1);
 //        mHandler.sendEmptyMessage(2);
 //        mHandler.sendEmptyMessage(3);

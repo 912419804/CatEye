@@ -86,13 +86,15 @@ public class CatActivity extends AppCompatActivity implements View.OnClickListen
      *
      * @param fragment 待添加的fragment
      */
-    protected void addFragment(CatFragment fragment) {
+    protected CatFragment addFragment(CatFragment fragment) {
         if (fragment != null) {
             getSupportFragmentManager().beginTransaction()
                     .replace(getFragmentContentId(), fragment, fragment.getClass().getSimpleName())
-                    .addToBackStack(fragment.getClass().getSimpleName())
+                    //暂时不添加到fragment栈中,参考微信等应用
+//                    .addToBackStack(fragment.getClass().getSimpleName())
                     .commitAllowingStateLoss();
         }
+        return fragment;
     }
 
 
