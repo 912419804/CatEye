@@ -17,13 +17,14 @@ import com.franky.cateye.api.AndroidService;
 import com.franky.cateye.base.CatFragment;
 import com.franky.cateye.base.CatWebActivity;
 import com.franky.cateye.bean.Android;
-import com.franky.cateye.bean.Androids;
+import com.franky.cateye.bean.GankData;
 import com.franky.cateye.http.Http;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -44,6 +45,7 @@ public class AndroidFragment extends CatFragment {
     private AndroidAdapter mAdapter;
     private List<Android> mList = new ArrayList<>();
     private AndroidService mAndroidService;
+    private Observable<GankData<List<Android>>> observable;
 
     @Override
     protected View getView(LayoutInflater inflater, @Nullable Bundle savedInstanceState) {
@@ -93,36 +95,42 @@ public class AndroidFragment extends CatFragment {
     @Override
     public void initData() {
         super.initData();
-        mAndroidService.getData(10, page)
+        observable = mAndroidService.getData(10, page)
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Androids>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                    }
+                .observeOn(AndroidSchedulers.mainThread());
+        observable.subscribe(new Observer<GankData<List<Android>>>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+            }
 
-                    @Override
-                    public void onNext(Androids androids) {
-                        mRefreshLayout.setRefreshing(false);
-                        mAdapter.loadMoreComplete();
-                        if (page == 1) {
-                            mList.clear();
-                        }
-                        mList.addAll(androids.getResults());
-                        mAdapter.notifyDataSetChanged();
-                        page++;
-                    }
+            @Override
+            public void onNext(GankData<List<Android>> androids) {
+                mRefreshLayout.setRefreshing(false);
+                mAdapter.loadMoreComplete();
+                if (page == 1) {
+                    mList.clear();
+                }
+                mList.addAll(androids.getResults());
+                mAdapter.notifyDataSetChanged();
+                page++;
+            }
 
-                    @Override
-                    public void onError(Throwable e) {
+            @Override
+            public void onError(Throwable e) {
 
-                    }
+            }
 
-                    @Override
-                    public void onComplete() {
+            @Override
+            public void onComplete() {
 
-                    }
-                });
+            }
+        });
 
+    }
+
+    @Override
+    public void onStop() {
+        observable.unsubscribeOn(AndroidSchedulers.mainThread());
+        super.onStop();
     }
 }

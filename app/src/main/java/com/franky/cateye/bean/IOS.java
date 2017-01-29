@@ -10,7 +10,7 @@ import java.util.List;
  * {@link GirlService} 支持的bean
  */
 
-public class Girl implements Serializable {
+public class IOS implements Serializable {
 
     private String _id;
     private String _ns;
@@ -23,34 +23,6 @@ public class Girl implements Serializable {
     private boolean used;
     private String who;
     private List<String> images;
-    private int width;
-    private int height;
-    private String subtype;
-
-    public String getSubtype() {
-        return subtype;
-    }
-
-    public void setSubtype(String subtype) {
-        this.subtype = subtype;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
 
     public List<String> getImages() {
         return images;
@@ -139,6 +111,7 @@ public class Girl implements Serializable {
     public void setWho(String who) {
         this.who = who;
     }
+
 
     @Override
     public String toString() {

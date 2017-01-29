@@ -1,7 +1,7 @@
 package com.franky.cateye.api;
 
-import com.franky.cateye.bean.Android;
 import com.franky.cateye.bean.GankData;
+import com.franky.cateye.bean.IOS;
 
 import java.util.List;
 
@@ -14,10 +14,10 @@ import retrofit2.http.Path;
  * Gank.io中的分类接口中的android数据
  */
 
-public interface AndroidService {
+public interface IOSService {
 
-//    http://gank.io/api/data/Android/10/1
+//    http://gank.io/api/data/iOS/10/1
 
-    @GET("data/Android/{num}/{page}")
-    Observable<GankData<List<Android>>> getData(@Path("num") int num, @Path("page") int page);
+    @GET("data/iOS/{num}/{page}")
+    Observable<GankData<List<IOS>>> getData(@Path("num") int num, @Path("page") int page);
 }

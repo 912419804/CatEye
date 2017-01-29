@@ -18,4 +18,6 @@ public interface ImageLoader {
      */
     void load(Context context, String url, ImageView imageView);
 
+
+
 }
