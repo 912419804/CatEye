@@ -1,4 +1,4 @@
-package com.franky.cateye.manager;
+package com.franky.cateye.activity.manager;
 
 import android.app.Activity;
 import android.app.Application;

@@ -1,4 +1,4 @@
-package com.franky.cateye.img;
+package com.franky.cateye.http.img;
 
 import android.content.Context;
 import android.net.Uri;

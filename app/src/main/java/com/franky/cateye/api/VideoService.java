@@ -1,6 +1,7 @@
 package com.franky.cateye.api;
 
-import com.franky.cateye.bean.Girl;
+import com.franky.cateye.bean.GankData;
+import com.franky.cateye.bean.Video;
 
 import java.util.List;
 
@@ -10,12 +11,12 @@ import retrofit2.http.Path;
 
 /**
  * Created by Administrator on 2017/1/25.
- * Gank.io中的分类接口中的图片数据
+ * Gank.io中的分类接口中的休息视频数据
  */
 
 public interface VideoService {
-    //    http://gank.io/api/data/福利/10/1
+    //    http://gank.io/api/data/休息视频/10/1
 
     @GET("data/休息视频/{num}/{page}")
-    Observable<List<Girl>> getData(@Path("num") int num, @Path("page") int page);
+    Observable<GankData<List<Video>>> getData(@Path("num") int num, @Path("page") int page);
 }

@@ -3,9 +3,9 @@ package com.franky.cateye.application;
 import android.app.Application;
 import android.content.Context;
 
-import com.franky.cateye.img.CatImgLoader;
-import com.franky.cateye.img.GlideLoader;
-import com.franky.cateye.manager.ActivityManager;
+import com.franky.cateye.http.img.CatImgLoader;
+import com.franky.cateye.http.img.GlideLoader;
+import com.franky.cateye.activity.manager.ActivityManager;
 import com.franky.cateye.utils.ApplicationUtil;
 import com.franky.cateye.utils.CatLog;
 import com.franky.cateye.utils.Utils;

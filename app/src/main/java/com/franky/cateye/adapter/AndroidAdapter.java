@@ -8,7 +8,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.franky.cateye.R;
 import com.franky.cateye.bean.Android;
-import com.franky.cateye.img.CatImgLoader;
+import com.franky.cateye.http.img.CatImgLoader;
 
 import java.util.List;
 
@@ -30,10 +30,12 @@ public class AndroidAdapter extends BaseQuickAdapter<Android, BaseViewHolder> {
     @Override
     protected void convert(BaseViewHolder helper, Android item) {
         helper.setText(R.id.tv_title,item.getDesc());
+        ImageView view = helper.getView(R.id.iv_title_img);
         if (item.getImages() != null){
-            ImageView view = helper.getView(R.id.iv_title_img);
             CatImgLoader.load(mContext,item.getImages().get(0), view);
             view.setVisibility(View.VISIBLE);
+        }else {
+            view.setVisibility(View.GONE);
         }
     }
 

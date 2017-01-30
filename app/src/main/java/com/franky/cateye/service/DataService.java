@@ -7,7 +7,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import com.franky.cateye.bean.Girl;
-import com.franky.cateye.img.CatImgLoader;
+import com.franky.cateye.http.img.CatImgLoader;
 
 import org.greenrobot.eventbus.EventBus;
 

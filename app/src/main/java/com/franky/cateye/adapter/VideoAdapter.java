@@ -7,35 +7,33 @@ import android.widget.ImageView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.franky.cateye.R;
-import com.franky.cateye.bean.IOS;
+import com.franky.cateye.bean.Video;
 import com.franky.cateye.http.img.CatImgLoader;
 
 import java.util.List;
 
 /**
  * Created by Administrator on 2017/1/28.
- * IOSFragment adapter
+ * VideoFragment adapter
  */
 
-public class IOSAdapter extends BaseQuickAdapter<IOS, BaseViewHolder> {
+public class VideoAdapter extends BaseQuickAdapter<Video, BaseViewHolder> {
 
     private Context mContext;
 
-    public IOSAdapter(Context context, List<IOS> list) {
+    public VideoAdapter(Context context, List<Video> list) {
         super(R.layout.item_android_list, list);
         this.mContext = context;
     }
 
 
     @Override
-    protected void convert(BaseViewHolder helper, IOS item) {
-        helper.setText(R.id.tv_title, item.getDesc());
-        ImageView view = helper.getView(R.id.iv_title_img);
-        if (item.getImages() != null) {
-            CatImgLoader.load(mContext, item.getImages().get(0), view);
+    protected void convert(BaseViewHolder helper, Video item) {
+        helper.setText(R.id.tv_title,item.getDesc());
+        if (item.getImages() != null){
+            ImageView view = helper.getView(R.id.iv_title_img);
+            CatImgLoader.load(mContext,item.getImages().get(0), view);
             view.setVisibility(View.VISIBLE);
-        } else {
-            view.setVisibility(View.GONE);
         }
     }
 
