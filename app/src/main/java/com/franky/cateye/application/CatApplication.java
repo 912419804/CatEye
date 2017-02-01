@@ -9,6 +9,7 @@ import com.franky.cateye.activity.manager.ActivityManager;
 import com.franky.cateye.utils.ApplicationUtil;
 import com.franky.cateye.utils.CatLog;
 import com.franky.cateye.utils.Utils;
+import com.squareup.leakcanary.LeakCanary;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.bugly.crashreport.CrashReport.UserStrategy;
 
@@ -23,11 +24,19 @@ public class CatApplication extends Application {
     public void onCreate() {
         super.onCreate();
         initContext();
-        registerActivityLifecycleCallbacks();
+        initLeakCanary();
+        initActivityManager();
         initLogSetting();
         initImageLoader();
         initEventBus();
         initMonitor();
+    }
+
+    /**
+     * LeakCanary初始化
+     */
+    private void initLeakCanary() {
+        LeakCanary.install(this);
     }
 
     private void initContext() {
@@ -38,7 +47,7 @@ public class CatApplication extends Application {
      * 注册Activity生命周期回调方法，用于ActivityManager进行Activity的管理
      * 并加入了友盟统计
      */
-    private void registerActivityLifecycleCallbacks() {
+    private void initActivityManager() {
         registerActivityLifecycleCallbacks(ActivityManager.getInstance());
     }
 

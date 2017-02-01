@@ -27,6 +27,7 @@ public class HomeActivity extends CatActivity implements TabLayout.OnTabClickLis
     @BindView(R.id.tab_layout)
     TabLayout tab_layout;
     ArrayList<TabItem> tabs = new ArrayList<TabItem>();
+    int[] titles = new int[]{R.string.fragment_android,R.string.fragment_ios,R.string.fragment_welfare,R.string.fragment_video};
 
     @Override
     protected void initView() {
@@ -37,18 +38,20 @@ public class HomeActivity extends CatActivity implements TabLayout.OnTabClickLis
     @Override
     protected void initData() {
         super.initData();
-        tabs.add(new TabItem(R.drawable.selector_tab_triangle, R.string.fragment_android, AndroidFragment.class));
-        tabs.add(new TabItem(R.drawable.selector_tab_circle, R.string.fragment_ios, IOSFragment.class));
-        tabs.add(new TabItem(R.drawable.selector_tab_cross, R.string.fragment_welfare, WelfareFragment.class));
-        tabs.add(new TabItem(R.drawable.selector_tab_square, R.string.fragment_video, VideoFragment.class));
+        tabs.add(new TabItem(R.drawable.selector_tab_triangle, titles[0], AndroidFragment.class));
+        tabs.add(new TabItem(R.drawable.selector_tab_circle, titles[1], IOSFragment.class));
+        tabs.add(new TabItem(R.drawable.selector_tab_cross, titles[2], WelfareFragment.class));
+        tabs.add(new TabItem(R.drawable.selector_tab_square, titles[3], VideoFragment.class));
         tab_layout.initData(tabs, this);
         onTabClick(tabs.get(0));
     }
 
     @Override
     public void onTabClick(TabItem tabItem) {
-        tab_layout.setCurrentTab(tabs.indexOf(tabItem));
+        int index = tabs.indexOf(tabItem);
+        tab_layout.setCurrentTab(index);
         addFragment(tabItem.initView());
+        setTitle(titles[index]);
     }
 
     @Override

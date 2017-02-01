@@ -25,6 +25,11 @@
             android:name=".activity.SplashActivity"
             android:theme="@style/Theme.AppStartLoadTranslucent"
             >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
 
         </activity>
         <!--将首页配置为singleTask,方便程序退出-->
@@ -32,11 +37,6 @@
             android:name=".activity.HomeActivity"
             android:launchMode="singleTask"
             >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
         <activity android:name=".base.CatWebActivity"/>
         <service android:name=".service.DataService"/>
