@@ -1,6 +1,7 @@
 package com.franky.cateye.http.img;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.widget.ImageView;
 
 /**
@@ -17,6 +18,12 @@ public interface ImageLoader {
      * @param imageView ImageView控件
      */
     void load(Context context, String url, ImageView imageView);
+    /**
+     * 加载图片
+     * @param context 上下文
+     * @param url 图片URL
+     */
+    Bitmap load(Context context, String url);
 
 
 
