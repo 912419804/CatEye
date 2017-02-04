@@ -3,7 +3,7 @@ package com.franky.cateye.application;
 import android.app.Application;
 import android.content.Context;
 
-import com.franky.cateye.activity.manager.ActivityManager;
+import com.franky.cateye.BuildConfig;
 import com.franky.cateye.http.img.CatImgLoader;
 import com.franky.cateye.http.img.GlideLoader;
 import com.franky.cateye.utils.ApplicationUtil;
@@ -28,15 +28,9 @@ public class CatApplication extends Application {
         initLogSetting();
         initImageLoader();
         initEventBus();
-        initMonitor();
         initCrashHandler();
+        initMonitor();
     }
-
-    private void initCrashHandler() {
-        CrashHandler crashHandler = CrashHandler.getInstance();
-        crashHandler.init(this);
-    }
-
 
     /**
      * LeakCanary初始化
@@ -85,11 +79,16 @@ public class CatApplication extends Application {
         // 设置是否为上报进程
         UserStrategy strategy = new UserStrategy(context);
         strategy.setUploadProcess(processName == null || processName.equals(packageName));
-//        CrashReport.initCrashReport(getApplicationContext(), "9baab4dc67", BuildConfig.DEBUG);
-        CrashReport.initCrashReport(getApplicationContext(), "9baab4dc67", false);
+        CrashReport.initCrashReport(getApplicationContext(), "9baab4dc67", !BuildConfig.DEBUG);
     }
 
-    private void initEventBus(){
+    private void initCrashHandler() {
+        if (CatLog.isDebug) {
+            Thread.setDefaultUncaughtExceptionHandler(new CrashShowHandler(this));
+        }
+    }
+
+    private void initEventBus() {
 //        EventBus.builder().addIndex(new MyEventBusIndex()).installDefaultEventBus();
     }
 }

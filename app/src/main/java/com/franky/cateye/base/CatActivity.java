@@ -65,7 +65,6 @@ public class CatActivity extends AppCompatActivity implements View.OnClickListen
 
     @Override
     protected void onResume() {
-        onResumeFragments();
         super.onResume();
     }
 

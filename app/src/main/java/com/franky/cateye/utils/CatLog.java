@@ -11,7 +11,7 @@ import com.orhanobut.logger.Settings;
  */
 
 public class CatLog {
-    private static boolean isDebug = BuildConfig.LOG_DEBUG;
+    public static boolean isDebug = BuildConfig.LOG_DEBUG;
 
     /**
      * It is used to get the settings object in order to change settings

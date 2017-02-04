@@ -38,6 +38,7 @@
             android:launchMode="singleTask"
             >
         </activity>
+        <activity android:name=".activity.CrashShowActivity"/>
         <activity android:name=".base.CatWebActivity"/>
         <service android:name=".service.DataService"/>
         <!--友盟配置-->
