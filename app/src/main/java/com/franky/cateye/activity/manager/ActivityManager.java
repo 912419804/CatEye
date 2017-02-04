@@ -71,6 +71,7 @@ public class ActivityManager implements Application.ActivityLifecycleCallbacks {
         CatLog.d(activity.getClass().getSimpleName(), "[SaveInstanceState]");
     }
 
+
     @Override
     public void onActivityDestroyed(Activity activity) {
         CatLog.d(activity.getClass().getSimpleName(), "[Destroyed]");

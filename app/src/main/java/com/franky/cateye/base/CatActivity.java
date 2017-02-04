@@ -50,17 +50,23 @@ public class CatActivity extends AppCompatActivity implements View.OnClickListen
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         //将handleIntent放在前面是因为有时候我们需要判断传递的参数
         //是否正常,如果不合法那么终止界面
-        if (getIntent() != null && handleIntent(getIntent())) {
-            initView();
-            initFirstFragment();
-            initData();
-        } else {
-            show(getString(R.string.toast_intent_data_error));
+
+        super.onCreate(savedInstanceState);
+            if (getIntent() != null && handleIntent(getIntent())) {
+                initView();
+                initFirstFragment();
+                initData();
+            } else {
+                show(getString(R.string.toast_intent_data_error));
+            }
         }
 
+    @Override
+    protected void onResume() {
+        onResumeFragments();
+        super.onResume();
     }
 
     private void initFirstFragment() {
@@ -111,6 +117,7 @@ public class CatActivity extends AppCompatActivity implements View.OnClickListen
         super.setContentView(layoutResID);
         ButterKnife.bind(this);
     }
+
 
     /**
      * 简化的startActivity方法

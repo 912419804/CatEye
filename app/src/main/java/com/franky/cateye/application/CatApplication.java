@@ -3,13 +3,12 @@ package com.franky.cateye.application;
 import android.app.Application;
 import android.content.Context;
 
+import com.franky.cateye.activity.manager.ActivityManager;
 import com.franky.cateye.http.img.CatImgLoader;
 import com.franky.cateye.http.img.GlideLoader;
-import com.franky.cateye.activity.manager.ActivityManager;
 import com.franky.cateye.utils.ApplicationUtil;
 import com.franky.cateye.utils.CatLog;
 import com.franky.cateye.utils.Utils;
-import com.squareup.leakcanary.LeakCanary;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.bugly.crashreport.CrashReport.UserStrategy;
 
@@ -30,13 +29,20 @@ public class CatApplication extends Application {
         initImageLoader();
         initEventBus();
         initMonitor();
+        initCrashHandler();
     }
+
+    private void initCrashHandler() {
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(this);
+    }
+
 
     /**
      * LeakCanary初始化
      */
     private void initLeakCanary() {
-        LeakCanary.install(this);
+//        LeakCanary.install(this);
     }
 
     private void initContext() {

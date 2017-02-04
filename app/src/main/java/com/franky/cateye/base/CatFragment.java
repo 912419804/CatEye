@@ -31,11 +31,13 @@ public class CatFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         handleBundle(savedInstanceState);
         super.onCreate(savedInstanceState);
     }
+
 
     /**
      * 处理fragment携带参数的情况

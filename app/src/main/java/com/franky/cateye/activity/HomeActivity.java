@@ -1,5 +1,7 @@
 package com.franky.cateye.activity;
 
+import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.widget.FrameLayout;
 
 import com.franky.cateye.R;
@@ -28,12 +30,13 @@ public class HomeActivity extends CatActivity implements TabLayout.OnTabClickLis
     TabLayout tab_layout;
     ArrayList<TabItem> tabs = new ArrayList<TabItem>();
     int[] titles = new int[]{R.string.fragment_android,R.string.fragment_ios,R.string.fragment_welfare,R.string.fragment_video};
-
+    int index = 0;
     @Override
     protected void initView() {
         super.initView();
         setContentView(R.layout.activity_home);
     }
+
 
     @Override
     protected void initData() {
@@ -43,12 +46,12 @@ public class HomeActivity extends CatActivity implements TabLayout.OnTabClickLis
         tabs.add(new TabItem(R.drawable.selector_tab_cross, titles[2], WelfareFragment.class));
         tabs.add(new TabItem(R.drawable.selector_tab_square, titles[3], VideoFragment.class));
         tab_layout.initData(tabs, this);
-        onTabClick(tabs.get(0));
+        onTabClick(tabs.get(index));
     }
 
     @Override
     public void onTabClick(TabItem tabItem) {
-        int index = tabs.indexOf(tabItem);
+        index = tabs.indexOf(tabItem);
         tab_layout.setCurrentTab(index);
         addFragment(tabItem.initView());
         setTitle(titles[index]);
@@ -58,4 +61,9 @@ public class HomeActivity extends CatActivity implements TabLayout.OnTabClickLis
     protected int getFragmentContentId() {
         return R.id.fl_main;
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+    }
+
 }

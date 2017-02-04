@@ -133,4 +133,5 @@ public class AndroidFragment extends CatFragment {
         observable.unsubscribeOn(AndroidSchedulers.mainThread());
         super.onStop();
     }
+
 }

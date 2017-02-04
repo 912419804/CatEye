@@ -22,7 +22,11 @@ public class Http {
 
     static {
         //设置超时
-        CLIENT = new OkHttpClient.Builder()
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+//        if (BuildConfig.LOG_DEBUG){
+//            builder.addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.HEADERS));
+//        }
+        CLIENT = builder
                 .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
