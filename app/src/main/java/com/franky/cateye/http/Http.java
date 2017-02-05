@@ -1,11 +1,13 @@
 package com.franky.cateye.http;
 
+import com.franky.cateye.BuildConfig;
 import com.franky.cateye.Constants;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -23,9 +25,9 @@ public class Http {
     static {
         //设置超时
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
-//        if (BuildConfig.LOG_DEBUG){
-//            builder.addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.HEADERS));
-//        }
+        if (BuildConfig.LOG_DEBUG){
+            builder.addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC));
+        }
         CLIENT = builder
                 .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
