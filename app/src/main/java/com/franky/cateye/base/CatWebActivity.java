@@ -1,8 +1,12 @@
 package com.franky.cateye.base;
 
 import android.content.Intent;
+import android.view.View;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 
 import com.franky.cateye.R;
 
@@ -17,6 +21,10 @@ public class CatWebActivity extends CatActivity {
 
     @BindView(R.id.wv_web)
     WebView mWebView;
+
+    @BindView(R.id.gank_detail_progress)
+    ProgressBar mProgressBar;
+
     private String url;
 
     @Override
@@ -37,14 +45,39 @@ public class CatWebActivity extends CatActivity {
     @Override
     protected void initData() {
         super.initData();
-        WebSettings settings = mWebView.getSettings();
-        settings.setSupportZoom(true);
-        //设置浏览器支持javaScript
+        final WebSettings settings = mWebView.getSettings();
         settings.setJavaScriptEnabled(true);
-        //设置打开自带缩放按钮
-        settings.setBuiltInZoomControls(true);
-        // 进行跳转用户输入的url地址
+        settings.setUseWideViewPort(true);
+        settings.setLoadWithOverviewMode(true);
+        settings.setLoadsImagesAutomatically(true);
+        settings.setBlockNetworkImage(true);
+
+        mWebView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                super.onProgressChanged(view, newProgress);
+                mProgressBar.setProgress(newProgress);
+                if (newProgress == 100) {
+                    mProgressBar.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        mWebView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                loading(false);
+                settings.setBlockNetworkImage(false);
+            }
+        });
         mWebView.loadUrl(url);
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        mWebView.destroy();
+        super.onDestroy();
     }
 }
