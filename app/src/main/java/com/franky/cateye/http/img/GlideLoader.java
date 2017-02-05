@@ -20,6 +20,7 @@ public class GlideLoader implements ImageLoader {
     public void load(Context context, String url, ImageView imageView) {
         Glide.with(context)
                 .load(url)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imageView);
     }
 

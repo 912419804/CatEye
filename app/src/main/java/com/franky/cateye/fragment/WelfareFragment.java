@@ -20,7 +20,6 @@ import com.franky.cateye.bean.GankData;
 import com.franky.cateye.bean.Girl;
 import com.franky.cateye.http.Http;
 import com.franky.cateye.service.DataService;
-import com.franky.cateye.view.MyStaggerLayoutManager;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -82,7 +81,7 @@ public class WelfareFragment extends CatFragment {
                 }, 1000);
             }
         });
-        MyStaggerLayoutManager layoutManager = new MyStaggerLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        final StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mAdapter);
@@ -95,6 +94,14 @@ public class WelfareFragment extends CatFragment {
                 startActivity(intent);
             }
 
+        });
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                //防止第一行到顶部有空白区域
+                layoutManager.invalidateSpanAssignments();
+            }
         });
         mRefreshLayout.setRefreshing(true);
     }
@@ -135,7 +142,11 @@ public class WelfareFragment extends CatFragment {
             }
             page++;
             mList.addAll(data);
-            mAdapter.notifyDataSetChanged();
+            if (page == 1){
+                mAdapter.notifyDataSetChanged();
+            }else {
+                mAdapter.notifyItemInserted(data.size());
+            }
             mAdapter.loadMoreComplete();
             mRefreshLayout.setRefreshing(false);
     }
