@@ -1,16 +1,14 @@
 package com.franky.cateye.bean;
 
-import com.franky.cateye.api.GirlService;
-
 import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Administrator on 2017/1/25.
- * {@link GirlService} 支持的bean
+ * 通用的Gank数据bean
  */
 
-public class Video implements Serializable {
+public class GankResult implements Serializable {
 
     private String _id;
     private String _ns;

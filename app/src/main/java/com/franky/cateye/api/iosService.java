@@ -1,7 +1,7 @@
 package com.franky.cateye.api;
 
 import com.franky.cateye.bean.GankData;
-import com.franky.cateye.bean.IOS;
+import com.franky.cateye.bean.GankResult;
 
 import java.util.List;
 
@@ -19,5 +19,5 @@ public interface IOSService {
 //    http://gank.io/api/data/iOS/10/1
 
     @GET("data/iOS/{num}/{page}")
-    Observable<GankData<List<IOS>>> getData(@Path("num") int num, @Path("page") int page);
+    Observable<GankData<List<GankResult>>> getData(@Path("num") int num, @Path("page") int page);
 }

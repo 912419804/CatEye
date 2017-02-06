@@ -12,18 +12,19 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.franky.cateye.R;
-import com.franky.cateye.adapter.IOSAdapter;
+import com.franky.cateye.adapter.GankDataAdapter;
 import com.franky.cateye.api.IOSService;
 import com.franky.cateye.base.CatFragment;
 import com.franky.cateye.base.CatWebActivity;
 import com.franky.cateye.bean.GankData;
-import com.franky.cateye.bean.IOS;
+import com.franky.cateye.bean.GankResult;
 import com.franky.cateye.http.Http;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -41,9 +42,10 @@ public class IOSFragment extends CatFragment {
     @BindView(R.id.srl_refresh)
     SwipeRefreshLayout mRefreshLayout;
     private int page = 1;
-    private IOSAdapter mAdapter;
-    private List<IOS> mList = new ArrayList<>();
+    private GankDataAdapter mAdapter;
+    private List<GankResult> mList = new ArrayList<>();
     private IOSService mIOSService;
+    private Observable<GankData<List<GankResult>>> observable;
 
     @Override
     protected View getView(LayoutInflater inflater, @Nullable Bundle savedInstanceState) {
@@ -53,7 +55,7 @@ public class IOSFragment extends CatFragment {
     @Override
     protected void initView() {
         super.initView();
-        mAdapter = new IOSAdapter(mCatActivity, mList);
+        mAdapter = new GankDataAdapter(mCatActivity, mList);
         mIOSService = Http.create(IOSService.class);
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -93,36 +95,42 @@ public class IOSFragment extends CatFragment {
     @Override
     public void initData() {
         super.initData();
-        mIOSService.getData(10, page)
+        observable = mIOSService.getData(10, page)
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<GankData<List<IOS>>>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                    }
+                .observeOn(AndroidSchedulers.mainThread());
+        observable.subscribe(new Observer<GankData<List<GankResult>>>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+            }
 
-                    @Override
-                    public void onNext(GankData<List<IOS>> iOSs) {
-                        mRefreshLayout.setRefreshing(false);
-                        mAdapter.loadMoreComplete();
-                        if (page == 1) {
-                            mList.clear();
-                        }
-                        mList.addAll(iOSs.getResults());
-                        mAdapter.notifyDataSetChanged();
-                        page++;
-                    }
+            @Override
+            public void onNext(GankData<List<GankResult>> iOSs) {
+                mRefreshLayout.setRefreshing(false);
+                mAdapter.loadMoreComplete();
+                if (page == 1) {
+                    mList.clear();
+                }
+                mList.addAll(iOSs.getResults());
+                mAdapter.notifyDataSetChanged();
+                page++;
+            }
 
-                    @Override
-                    public void onError(Throwable e) {
+            @Override
+            public void onError(Throwable e) {
 
-                    }
+            }
 
-                    @Override
-                    public void onComplete() {
+            @Override
+            public void onComplete() {
 
-                    }
-                });
+            }
+        });
 
+    }
+
+    @Override
+    public void onStop() {
+        observable.unsubscribeOn(AndroidSchedulers.mainThread());
+        super.onStop();
     }
 }

@@ -1,7 +1,7 @@
 package com.franky.cateye.api;
 
 import com.franky.cateye.bean.GankData;
-import com.franky.cateye.bean.Video;
+import com.franky.cateye.bean.GankResult;
 
 import java.util.List;
 
@@ -18,5 +18,5 @@ public interface VideoService {
     //    http://gank.io/api/data/休息视频/10/1
 
     @GET("data/休息视频/{num}/{page}")
-    Observable<GankData<List<Video>>> getData(@Path("num") int num, @Path("page") int page);
+    Observable<GankData<List<GankResult>>> getData(@Path("num") int num, @Path("page") int page);
 }

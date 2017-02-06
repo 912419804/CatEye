@@ -12,12 +12,12 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.franky.cateye.R;
-import com.franky.cateye.adapter.VideoAdapter;
+import com.franky.cateye.adapter.GankDataAdapter;
 import com.franky.cateye.api.VideoService;
 import com.franky.cateye.base.CatFragment;
 import com.franky.cateye.base.CatWebActivity;
 import com.franky.cateye.bean.GankData;
-import com.franky.cateye.bean.Video;
+import com.franky.cateye.bean.GankResult;
 import com.franky.cateye.http.Http;
 
 import java.util.ArrayList;
@@ -41,10 +41,10 @@ public class VideoFragment extends CatFragment {
     @BindView(R.id.srl_refresh)
     SwipeRefreshLayout mRefreshLayout;
     private int page = 1;
-    private VideoAdapter mAdapter;
-    private List<Video> mList = new ArrayList<>();
+    private GankDataAdapter mAdapter;
+    private List<GankResult> mList = new ArrayList<>();
     private VideoService mVideoService;
-    private Observable<GankData<List<Video>>> observable;
+    private Observable<GankData<List<GankResult>>> observable;
 
     @Override
     protected View getView(LayoutInflater inflater, @Nullable Bundle savedInstanceState) {
@@ -54,7 +54,7 @@ public class VideoFragment extends CatFragment {
     @Override
     protected void initView() {
         super.initView();
-        mAdapter = new VideoAdapter(mCatActivity, mList);
+        mAdapter = new GankDataAdapter(mCatActivity, mList);
         mVideoService = Http.create(VideoService.class);
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -97,13 +97,13 @@ public class VideoFragment extends CatFragment {
         observable = mVideoService.getData(10, page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
-        observable.subscribe(new Observer<GankData<List<Video>>>() {
+        observable.subscribe(new Observer<GankData<List<GankResult>>>() {
             @Override
             public void onSubscribe(Disposable d) {
             }
 
             @Override
-            public void onNext(GankData<List<Video>> androids) {
+            public void onNext(GankData<List<GankResult>> androids) {
                 mRefreshLayout.setRefreshing(false);
                 mAdapter.loadMoreComplete();
                 if (page == 1) {

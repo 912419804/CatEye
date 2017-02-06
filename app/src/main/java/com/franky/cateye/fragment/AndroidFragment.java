@@ -12,12 +12,12 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.franky.cateye.R;
-import com.franky.cateye.adapter.AndroidAdapter;
+import com.franky.cateye.adapter.GankDataAdapter;
 import com.franky.cateye.api.AndroidService;
 import com.franky.cateye.base.CatFragment;
 import com.franky.cateye.base.CatWebActivity;
-import com.franky.cateye.bean.Android;
 import com.franky.cateye.bean.GankData;
+import com.franky.cateye.bean.GankResult;
 import com.franky.cateye.http.Http;
 
 import java.util.ArrayList;
@@ -28,6 +28,7 @@ import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -42,10 +43,10 @@ public class AndroidFragment extends CatFragment {
     @BindView(R.id.srl_refresh)
     SwipeRefreshLayout mRefreshLayout;
     private int page = 1;
-    private AndroidAdapter mAdapter;
-    private List<Android> mList = new ArrayList<>();
+    private GankDataAdapter mAdapter;
+    private List<GankResult> mList = new ArrayList<>();
     private AndroidService mAndroidService;
-    private Observable<GankData<List<Android>>> observable;
+    private Observable<GankData<List<GankResult>>> observable;
 
     @Override
     protected View getView(LayoutInflater inflater, @Nullable Bundle savedInstanceState) {
@@ -55,7 +56,7 @@ public class AndroidFragment extends CatFragment {
     @Override
     protected void initView() {
         super.initView();
-        mAdapter = new AndroidAdapter(mCatActivity, mList);
+        mAdapter = new GankDataAdapter(mCatActivity, mList);
         mAndroidService = Http.create(AndroidService.class);
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -98,13 +99,19 @@ public class AndroidFragment extends CatFragment {
         observable = mAndroidService.getData(10, page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
-        observable.subscribe(new Observer<GankData<List<Android>>>() {
+        observable.subscribe(new Consumer<GankData<List<GankResult>>>() {
+            @Override
+            public void accept(GankData<List<GankResult>> listGankData) throws Exception {
+
+            }
+        });
+        observable.subscribe(new Observer<GankData<List<GankResult>>>() {
             @Override
             public void onSubscribe(Disposable d) {
             }
 
             @Override
-            public void onNext(GankData<List<Android>> androids) {
+            public void onNext(GankData<List<GankResult>> androids) {
                 mRefreshLayout.setRefreshing(false);
                 mAdapter.loadMoreComplete();
                 if (page == 1) {

@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -49,6 +50,7 @@ public class WelfareFragment extends CatFragment {
     private WelfareAdapter mAdapter;
     private ArrayList<Girl> mList = new ArrayList<>();
     private GirlService mGirlService;
+    private Observable<GankData<ArrayList<Girl>>> observable;
 
     @Override
     protected View getView(LayoutInflater inflater, @Nullable Bundle savedInstanceState) {
@@ -109,50 +111,52 @@ public class WelfareFragment extends CatFragment {
     @Override
     public void initData() {
         super.initData();
-        mGirlService.getData(10, page)
+        observable = mGirlService.getData(10, page)
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<GankData<ArrayList<Girl>>>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                    }
+                .observeOn(AndroidSchedulers.mainThread());
+        observable.subscribe(new Observer<GankData<ArrayList<Girl>>>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+            }
 
-                    @Override
-                    public void onNext(GankData<ArrayList<Girl>> girls) {
-                        DataService.startService(mCatActivity,girls.getResults());
-                    }
+            @Override
+            public void onNext(GankData<ArrayList<Girl>> girls) {
+                DataService.startService(mCatActivity, girls.getResults());
+            }
 
-                    @Override
-                    public void onError(Throwable e) {
+            @Override
+            public void onError(Throwable e) {
 
-                    }
+            }
 
-                    @Override
-                    public void onComplete() {
+            @Override
+            public void onComplete() {
 
-                    }
-                });
+            }
+        });
 
 
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void dataEvent(List<Girl> data) {
-            if (page == 1){
-                mList.clear();
-            }
-            page++;
-            mList.addAll(data);
-            if (page == 1){
-                mAdapter.notifyDataSetChanged();
-            }else {
-                mAdapter.notifyItemInserted(data.size());
-            }
-            mAdapter.loadMoreComplete();
-            mRefreshLayout.setRefreshing(false);
+        if (page == 1) {
+            mList.clear();
+        }
+        page++;
+        mList.addAll(data);
+        if (page == 1) {
+            mAdapter.notifyDataSetChanged();
+        } else {
+            mAdapter.notifyItemInserted(data.size());
+        }
+        mAdapter.loadMoreComplete();
+        mRefreshLayout.setRefreshing(false);
     }
 
     @Override
     public void onDestroyView() {
+        observable.unsubscribeOn(AndroidSchedulers.mainThread());
         EventBus.getDefault().unregister(this);
         super.onDestroyView();
     }

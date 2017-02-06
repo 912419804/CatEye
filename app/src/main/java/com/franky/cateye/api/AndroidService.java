@@ -1,7 +1,7 @@
 package com.franky.cateye.api;
 
-import com.franky.cateye.bean.Android;
 import com.franky.cateye.bean.GankData;
+import com.franky.cateye.bean.GankResult;
 
 import java.util.List;
 
@@ -19,5 +19,5 @@ public interface AndroidService {
 //    http://gank.io/api/data/Android/10/1
 
     @GET("data/Android/{num}/{page}")
-    Observable<GankData<List<Android>>> getData(@Path("num") int num, @Path("page") int page);
+    Observable<GankData<List<GankResult>>> getData(@Path("num") int num, @Path("page") int page);
 }

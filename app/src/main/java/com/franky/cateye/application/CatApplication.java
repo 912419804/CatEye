@@ -9,6 +9,7 @@ import com.franky.cateye.http.img.GlideLoader;
 import com.franky.cateye.utils.ApplicationUtil;
 import com.franky.cateye.utils.CatLog;
 import com.franky.cateye.utils.Utils;
+import com.squareup.leakcanary.LeakCanary;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.bugly.crashreport.CrashReport.UserStrategy;
 
@@ -36,7 +37,7 @@ public class CatApplication extends Application {
      * LeakCanary初始化
      */
     private void initLeakCanary() {
-//        LeakCanary.install(this);
+        LeakCanary.install(this);
     }
 
     private void initContext() {
