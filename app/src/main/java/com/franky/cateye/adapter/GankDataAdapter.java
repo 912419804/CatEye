@@ -1,7 +1,6 @@
 package com.franky.cateye.adapter;
 
 import android.content.Context;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -33,9 +32,6 @@ public class GankDataAdapter extends BaseQuickAdapter<GankResult, BaseViewHolder
         ImageView view = helper.getView(R.id.iv_title_img);
         if (item.getImages() != null){
             CatImgLoader.load(mContext,item.getImages().get(0), view);
-            view.setVisibility(View.VISIBLE);
-        }else {
-            view.setVisibility(View.GONE);
         }
     }
 
