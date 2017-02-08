@@ -32,6 +32,9 @@ public class CatImgLoader {
     public static void load(Context context, String url, ImageView imageView) {
         instance.load(context, url, imageView);
     }
+    public static void load(Context context, int resId, ImageView imageView) {
+        instance.load(context, resId, imageView);
+    }
 
     /**
      * 需要在子线程执行

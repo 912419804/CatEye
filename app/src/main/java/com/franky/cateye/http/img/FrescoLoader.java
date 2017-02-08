@@ -27,6 +27,11 @@ public class FrescoLoader implements ImageLoader {
     }
 
     @Override
+    public void load(Context context, int resId, ImageView imageView) {
+        imageView.setImageResource(resId);
+    }
+
+    @Override
     public Bitmap load(Context context, String url) {
         Uri uri = Uri.parse(url);
         ImagePipeline imagePipeline = Fresco.getImagePipeline();

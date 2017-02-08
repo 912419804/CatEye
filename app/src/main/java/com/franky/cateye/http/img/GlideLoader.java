@@ -25,6 +25,14 @@ public class GlideLoader implements ImageLoader {
     }
 
     @Override
+    public void load(Context context, int resId, ImageView imageView) {
+        Glide.with(context)
+                .load(resId)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(imageView);
+    }
+
+    @Override
     public Bitmap load(Context context, String url) {
         try {
             return Glide.with(context)

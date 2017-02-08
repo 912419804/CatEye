@@ -21,6 +21,13 @@ public interface ImageLoader {
     /**
      * 加载图片
      * @param context 上下文
+     * @param resId 本地图片
+     * @param imageView ImageView控件
+     */
+    void load(Context context, int resId, ImageView imageView);
+    /**
+     * 加载图片
+     * @param context 上下文
      * @param url 图片URL
      */
     Bitmap load(Context context, String url);

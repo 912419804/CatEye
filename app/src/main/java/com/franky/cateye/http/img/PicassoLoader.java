@@ -22,6 +22,13 @@ public class PicassoLoader implements ImageLoader {
     }
 
     @Override
+    public void load(Context context, int resId, ImageView imageView) {
+        Picasso.with(context)
+                .load(resId)
+                .into(imageView);
+    }
+
+    @Override
     public Bitmap load(Context context, String url) {
         try {
             return Picasso.with(context)

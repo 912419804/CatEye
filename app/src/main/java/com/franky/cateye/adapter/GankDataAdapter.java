@@ -28,10 +28,12 @@ public class GankDataAdapter extends BaseQuickAdapter<GankResult, BaseViewHolder
 
     @Override
     protected void convert(BaseViewHolder helper, GankResult item) {
-        helper.setText(R.id.tv_title,item.getDesc());
+        helper.setText(R.id.tv_title, item.getDesc());
         ImageView view = helper.getView(R.id.iv_title_img);
-        if (item.getImages() != null){
-            CatImgLoader.load(mContext,item.getImages().get(0), view);
+        if (item.getImages() != null) {
+            CatImgLoader.load(mContext, item.getImages().get(0), view);
+        } else {
+            CatImgLoader.load(mContext, R.drawable.placeholder, view);
         }
     }
 
