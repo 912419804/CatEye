@@ -156,6 +156,7 @@ public class WelfareFragment extends CatFragment {
 
     @Override
     public void onDestroyView() {
+        mRefreshLayout.setRefreshing(false);
         observable.unsubscribeOn(AndroidSchedulers.mainThread());
         EventBus.getDefault().unregister(this);
         super.onDestroyView();

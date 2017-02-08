@@ -138,6 +138,7 @@ public class AndroidFragment extends CatFragment {
     @Override
     public void onStop() {
         observable.unsubscribeOn(AndroidSchedulers.mainThread());
+        mRefreshLayout.setRefreshing(false);
         super.onStop();
     }
 
