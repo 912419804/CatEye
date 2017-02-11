@@ -31,14 +31,6 @@ public class TabItem {
         this.tagFragmentClz = tagFragmentClz;
     }
 
-    public CatFragment initView() {
-        try {
-             return this.tagFragmentClz.newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 }
 
 

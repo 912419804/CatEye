@@ -1,12 +1,9 @@
 package com.franky.cateye.fragment;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.view.LayoutInflater;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -42,6 +39,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class WelfareFragment extends CatFragment {
 
+
     @BindView(R.id.rv_list)
     RecyclerView mRecyclerView;
     @BindView(R.id.srl_refresh)
@@ -51,17 +49,31 @@ public class WelfareFragment extends CatFragment {
     private ArrayList<Girl> mList = new ArrayList<>();
     private GirlService mGirlService;
     private Observable<GankData<ArrayList<Girl>>> observable;
-
+    private Disposable mDisposable;
     @Override
-    protected View getView(LayoutInflater inflater, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_welfare, null, false);
+    protected int getContentViewLayoutID() {
+        return R.layout.fragment_welfare;
     }
 
     @Override
-    protected void initView() {
-        super.initView();
+    protected void onFirstUserVisible() {
+        mRefreshLayout.setRefreshing(true);
+        initData();
+    }
+
+    @Override
+    protected void onUserVisible() {
+
+    }
+
+    @Override
+    protected void onUserInvisible() {
+    }
+
+    @Override
+    protected void initViewsAndEvents(View view) {
         EventBus.getDefault().register(this);
-        mAdapter = new WelfareAdapter(mCatActivity, mList);
+        mAdapter = new WelfareAdapter(mContext, mList);
         mGirlService = Http.create(GirlService.class);
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -91,7 +103,7 @@ public class WelfareFragment extends CatFragment {
 
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-                Intent intent = new Intent(mCatActivity, CatWebActivity.class);
+                Intent intent = new Intent(mContext, CatWebActivity.class);
                 intent.putExtra("url", mList.get(position).getUrl());
                 startActivity(intent);
             }
@@ -105,23 +117,21 @@ public class WelfareFragment extends CatFragment {
                 layoutManager.invalidateSpanAssignments();
             }
         });
-        mRefreshLayout.setRefreshing(true);
     }
 
-    @Override
     public void initData() {
-        super.initData();
         observable = mGirlService.getData(10, page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
         observable.subscribe(new Observer<GankData<ArrayList<Girl>>>() {
             @Override
             public void onSubscribe(Disposable d) {
+                mDisposable = d;
             }
 
             @Override
             public void onNext(GankData<ArrayList<Girl>> girls) {
-                DataService.startService(mCatActivity, girls.getResults());
+                DataService.startService(mContext, girls.getResults());
             }
 
             @Override
@@ -155,10 +165,12 @@ public class WelfareFragment extends CatFragment {
     }
 
     @Override
-    public void onDestroyView() {
-        mRefreshLayout.setRefreshing(false);
+    protected void DestroyViewAndThing() {
         observable.unsubscribeOn(AndroidSchedulers.mainThread());
+            observable.unsubscribeOn(AndroidSchedulers.mainThread());
+            if (null != mDisposable){
+                mDisposable.dispose();
+            }
         EventBus.getDefault().unregister(this);
-        super.onDestroyView();
     }
 }

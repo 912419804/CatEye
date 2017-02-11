@@ -1,12 +1,9 @@
 package com.franky.cateye.fragment;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -36,6 +33,7 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class VideoFragment extends CatFragment {
+
     @BindView(R.id.rv_list)
     RecyclerView mRecyclerView;
     @BindView(R.id.srl_refresh)
@@ -45,16 +43,32 @@ public class VideoFragment extends CatFragment {
     private List<GankResult> mList = new ArrayList<>();
     private VideoService mVideoService;
     private Observable<GankData<List<GankResult>>> observable;
+    private Disposable mDisposable;
 
     @Override
-    protected View getView(LayoutInflater inflater, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_video, null, false);
+    protected int getContentViewLayoutID() {
+        return R.layout.fragment_android;
     }
 
     @Override
-    protected void initView() {
-        super.initView();
-        mAdapter = new GankDataAdapter(mCatActivity, mList);
+    protected void onFirstUserVisible() {
+        mRefreshLayout.setRefreshing(true);
+        initData();
+    }
+
+    @Override
+    protected void onUserVisible() {
+
+    }
+
+    @Override
+    protected void onUserInvisible() {
+    }
+
+
+    @Override
+    protected void initViewsAndEvents(View view) {
+        mAdapter = new GankDataAdapter(mContext, mList);
         mVideoService = Http.create(VideoService.class);
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -76,40 +90,38 @@ public class VideoFragment extends CatFragment {
                 }, 1000);
             }
         });
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(mCatActivity));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
 
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-                Intent intent = new Intent(mCatActivity, CatWebActivity.class);
+                Intent intent = new Intent(mContext, CatWebActivity.class);
                 intent.putExtra("url", mList.get(position).getUrl());
                 startActivity(intent);
             }
 
         });
-        mRefreshLayout.setRefreshing(true);
     }
 
-    @Override
     public void initData() {
-        super.initData();
         observable = mVideoService.getData(10, page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
         observable.subscribe(new Observer<GankData<List<GankResult>>>() {
             @Override
             public void onSubscribe(Disposable d) {
+                mDisposable = d;
             }
 
             @Override
-            public void onNext(GankData<List<GankResult>> androids) {
+            public void onNext(GankData<List<GankResult>> data) {
                 mRefreshLayout.setRefreshing(false);
                 mAdapter.loadMoreComplete();
                 if (page == 1) {
                     mList.clear();
                 }
-                mList.addAll(androids.getResults());
+                mList.addAll(data.getResults());
                 mAdapter.notifyDataSetChanged();
                 page++;
             }
@@ -127,10 +139,12 @@ public class VideoFragment extends CatFragment {
 
     }
 
+
     @Override
-    public void onStop() {
+    protected void DestroyViewAndThing() {
         observable.unsubscribeOn(AndroidSchedulers.mainThread());
-        mRefreshLayout.setRefreshing(false);
-        super.onStop();
+        if (null != mDisposable){
+            mDisposable.dispose();
+        }
     }
 }

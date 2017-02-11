@@ -23,7 +23,6 @@ import butterknife.ButterKnife;
 
 public class CatActivity extends AppCompatActivity implements View.OnClickListener {
 
-
     public Handler mHandler = new Handler() {
 
         @Override
@@ -33,12 +32,6 @@ public class CatActivity extends AppCompatActivity implements View.OnClickListen
         }
     };
 
-    /**
-     * 获取第一个fragment
-     */
-    protected CatFragment getFirstFragment() {
-        return null;
-    }
 
     /**
      * 获取Intent,处理传递参数
@@ -54,56 +47,25 @@ public class CatActivity extends AppCompatActivity implements View.OnClickListen
         //是否正常,如果不合法那么终止界面
 
         super.onCreate(savedInstanceState);
-            if (getIntent() != null && handleIntent(getIntent())) {
-                initView();
-                initFirstFragment();
-                initData();
-            } else {
-                show(getString(R.string.toast_intent_data_error));
-            }
+        if (getIntent() != null && handleIntent(getIntent())) {
+            initView();
+            initData();
+        } else {
+            show(getString(R.string.toast_intent_data_error));
         }
+    }
 
     @Override
     protected void onResume() {
         super.onResume();
     }
 
-    private void initFirstFragment() {
-        //避免重复添加Fragment
-        if (null == getSupportFragmentManager().getFragments()) {
-            CatFragment firstFragment = getFirstFragment();
-            if (null != firstFragment) {
-                addFragment(firstFragment);
-            }
-        }
-    }
 
     protected void initData() {
     }
 
     protected void initView() {
 
-    }
-
-    /**
-     * 添加fragment
-     * 需要实现getFragmentContentId()方法
-     *
-     * @param fragment 待添加的fragment
-     */
-    protected CatFragment addFragment(CatFragment fragment) {
-        if (fragment != null) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(getFragmentContentId(), fragment, fragment.getClass().getSimpleName())
-                    .addToBackStack(fragment.getClass().getSimpleName())
-                    .commitAllowingStateLoss();
-        }
-        return fragment;
-    }
-
-
-    protected int getFragmentContentId() {
-        return 0;
     }
 
     protected void handleMessage(Message msg) {

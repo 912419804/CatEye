@@ -83,7 +83,7 @@ public class CatApplication extends Application {
     }
 
     private void initCrashHandler() {
-        if (CatLog.isDebug) {
+        if (!CatLog.isDebug) {
             Thread.setDefaultUncaughtExceptionHandler(new CrashShowHandler(this));
         }
     }

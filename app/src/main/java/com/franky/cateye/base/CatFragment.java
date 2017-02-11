@@ -16,84 +16,96 @@ import butterknife.Unbinder;
  * fragment 基类
  */
 
-public class CatFragment extends Fragment implements View.OnClickListener {
+public abstract class CatFragment extends Fragment{
 
-    protected CatActivity mCatActivity;
+
     private Unbinder unbinder;
+    protected Context mContext;
+
+    private boolean isFirstVisible = true;
+    private boolean isFirstInvisible = true;
+    private boolean isPrepared;
+
 
     @Override
     public void onAttach(Context context) {
-        if (context instanceof CatActivity) {
-            mCatActivity = (CatActivity) context;
-            super.onAttach(context);
+        this.mContext = context;
+        super.onAttach(context);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        if (getContentViewLayoutID() != 0) {
+            View view = inflater.inflate(getContentViewLayoutID(), null);
+            unbinder = ButterKnife.bind(this, view);
+            return view;
         } else {
-            throw new IllegalArgumentException("context must be CatActivity!");
+            return super.onCreateView(inflater, container, savedInstanceState);
         }
     }
 
-
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        handleBundle(savedInstanceState);
-        super.onCreate(savedInstanceState);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initViewsAndEvents(view);
     }
 
-
-    /**
-     * 处理fragment携带参数的情况
-     * @param savedInstanceState bundle
-     */
-    protected void handleBundle(Bundle savedInstanceState) {
-
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = getView(inflater, savedInstanceState);
-        unbinder = ButterKnife.bind(this,rootView);
-        return rootView;
-    }
+    protected abstract int getContentViewLayoutID();
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        initView();
-        initData();
+        initPrepare();
     }
 
-    protected void initView() {
+    private synchronized void initPrepare() {
+        if (isPrepared) {
+            onFirstUserVisible();
+        } else {
+            isPrepared = true;
+        }
     }
 
-    protected View getView(LayoutInflater inflater, @Nullable Bundle savedInstanceState) {
-        return null;
-    }
-
-    public void initData() {
-    }
-
-
-    /**
-     * 同时设置多个view的onClickListener方法
-     *
-     * @param views 需要设置的 view
-     */
-    protected void setMoreOnclickListener(View... views) {
-        for (View view : views) {
-            if (view != null) {
-                view.setOnClickListener(this);
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            if (isFirstVisible) {
+                isFirstVisible = false;
+                initPrepare();
+            } else {
+                onUserVisible();
+            }
+        } else {
+            if (isFirstInvisible) {
+                isFirstInvisible = false;
+                onFirstUserInvisible();
+            } else {
+                onUserInvisible();
             }
         }
     }
 
+    protected abstract void onFirstUserVisible();
+
+    protected abstract void onUserVisible();
+
+    private void onFirstUserInvisible() {
+    }
+
+    protected abstract void onUserInvisible();
+
+
+
+    protected abstract void initViewsAndEvents(View view);
+
     @Override
-    public void onDestroyView() {
+    public void onDestroy() {
         unbinder.unbind();
-        super.onDestroyView();
+        DestroyViewAndThing();
+        super.onDestroy();
     }
 
-    @Override
-    public void onClick(View v) {
+    protected abstract void DestroyViewAndThing();
 
-    }
 }
