@@ -5,17 +5,20 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.franky.cateye.R;
 import com.franky.cateye.adapter.GankDataAdapter;
 import com.franky.cateye.api.VideoService;
+import com.franky.cateye.base.CatActivity;
 import com.franky.cateye.base.CatFragment;
 import com.franky.cateye.base.CatWebActivity;
 import com.franky.cateye.bean.GankData;
 import com.franky.cateye.bean.GankResult;
 import com.franky.cateye.http.Http;
+import com.franky.cateye.utils.CatLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +29,8 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+
+
 
 /**
  * Created by Administrator on 2017/1/27.
@@ -44,6 +49,8 @@ public class VideoFragment extends CatFragment {
     private VideoService mVideoService;
     private Observable<GankData<List<GankResult>>> observable;
     private Disposable mDisposable;
+    private View notDataView;
+    private View errorView;
 
     @Override
     protected int getContentViewLayoutID() {
@@ -53,7 +60,7 @@ public class VideoFragment extends CatFragment {
     @Override
     protected void onFirstUserVisible() {
         mRefreshLayout.setRefreshing(true);
-        initData();
+        getData();
     }
 
     @Override
@@ -68,6 +75,20 @@ public class VideoFragment extends CatFragment {
 
     @Override
     protected void initViewsAndEvents(View view) {
+        notDataView = ((CatActivity) mContext).getLayoutInflater().inflate(R.layout.empty_view, (ViewGroup) mRecyclerView.getParent(), false);
+        notDataView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                refreshData();
+            }
+        });
+        errorView = ((CatActivity) mContext).getLayoutInflater().inflate(R.layout.error_view, (ViewGroup) mRecyclerView.getParent(), false);
+        errorView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                refreshData();
+            }
+        });
         mAdapter = new GankDataAdapter(mContext, mList);
         mVideoService = Http.create(VideoService.class);
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -75,7 +96,7 @@ public class VideoFragment extends CatFragment {
             public void onRefresh() {
                 mRefreshLayout.setRefreshing(true);
                 page = 1;
-                initData();
+                getData();
             }
         });
         mAdapter.setEnableLoadMore(true);
@@ -85,7 +106,7 @@ public class VideoFragment extends CatFragment {
                 mRecyclerView.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        initData();
+                        getData();
                     }
                 }, 1000);
             }
@@ -104,7 +125,13 @@ public class VideoFragment extends CatFragment {
         });
     }
 
-    public void initData() {
+    private void refreshData() {
+        mRefreshLayout.setRefreshing(true);
+        page = 1;
+        getData();
+    }
+
+    public void getData() {
         observable = mVideoService.getData(10, page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -128,7 +155,9 @@ public class VideoFragment extends CatFragment {
 
             @Override
             public void onError(Throwable e) {
-
+                mRefreshLayout.setRefreshing(false);
+                mAdapter.setEmptyView(errorView);
+                CatLog.d("error>", e.getMessage());
             }
 
             @Override

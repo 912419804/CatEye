@@ -5,17 +5,20 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.franky.cateye.R;
 import com.franky.cateye.adapter.GankDataAdapter;
 import com.franky.cateye.api.AndroidService;
+import com.franky.cateye.base.CatActivity;
 import com.franky.cateye.base.CatFragment;
 import com.franky.cateye.base.CatWebActivity;
 import com.franky.cateye.bean.GankData;
 import com.franky.cateye.bean.GankResult;
 import com.franky.cateye.http.Http;
+import com.franky.cateye.utils.CatLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +47,8 @@ public class AndroidFragment extends CatFragment {
     private AndroidService mAndroidService;
     private Observable<GankData<List<GankResult>>> observable;
     private Disposable mDisposable;
-
+    private View notDataView;
+    private View errorView;
 
     @Override
     protected int getContentViewLayoutID() {
@@ -53,8 +57,7 @@ public class AndroidFragment extends CatFragment {
 
     @Override
     protected void onFirstUserVisible() {
-        mRefreshLayout.setRefreshing(true);
-        initData();
+        refreshData();
     }
 
     @Override
@@ -70,14 +73,26 @@ public class AndroidFragment extends CatFragment {
 
     @Override
     protected void initViewsAndEvents(View view) {
+        notDataView = ((CatActivity) mContext).getLayoutInflater().inflate(R.layout.empty_view, (ViewGroup) mRecyclerView.getParent(), false);
+        notDataView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                refreshData();
+            }
+        });
+        errorView = ((CatActivity) mContext).getLayoutInflater().inflate(R.layout.error_view, (ViewGroup) mRecyclerView.getParent(), false);
+        errorView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                refreshData();
+            }
+        });
         mAdapter = new GankDataAdapter(mContext, mList);
         mAndroidService = Http.create(AndroidService.class);
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mRefreshLayout.setRefreshing(true);
-                page = 1;
-                initData();
+                refreshData();
             }
         });
         mAdapter.setEnableLoadMore(true);
@@ -87,7 +102,7 @@ public class AndroidFragment extends CatFragment {
                 mRecyclerView.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        initData();
+                        getData();
                     }
                 }, 1000);
             }
@@ -106,7 +121,13 @@ public class AndroidFragment extends CatFragment {
         });
     }
 
-    public void initData() {
+    private void refreshData() {
+        mRefreshLayout.setRefreshing(true);
+        page = 1;
+        getData();
+    }
+
+    public void getData() {
         observable = mAndroidService.getData(10, page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -130,7 +151,9 @@ public class AndroidFragment extends CatFragment {
 
             @Override
             public void onError(Throwable e) {
-
+                mRefreshLayout.setRefreshing(false);
+                mAdapter.setEmptyView(errorView);
+                CatLog.d("error>", e.getMessage());
             }
 
             @Override
@@ -145,7 +168,7 @@ public class AndroidFragment extends CatFragment {
     @Override
     protected void DestroyViewAndThing() {
         observable.unsubscribeOn(AndroidSchedulers.mainThread());
-        if (null != mDisposable){
+        if (null != mDisposable) {
             mDisposable.dispose();
         }
     }

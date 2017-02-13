@@ -5,18 +5,21 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.franky.cateye.R;
 import com.franky.cateye.adapter.WelfareAdapter;
 import com.franky.cateye.api.GirlService;
+import com.franky.cateye.base.CatActivity;
 import com.franky.cateye.base.CatFragment;
 import com.franky.cateye.base.CatWebActivity;
 import com.franky.cateye.bean.GankData;
 import com.franky.cateye.bean.Girl;
 import com.franky.cateye.http.Http;
 import com.franky.cateye.service.DataService;
+import com.franky.cateye.utils.CatLog;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -50,6 +53,9 @@ public class WelfareFragment extends CatFragment {
     private GirlService mGirlService;
     private Observable<GankData<ArrayList<Girl>>> observable;
     private Disposable mDisposable;
+    private View notDataView;
+    private View errorView;
+
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.fragment_welfare;
@@ -58,7 +64,7 @@ public class WelfareFragment extends CatFragment {
     @Override
     protected void onFirstUserVisible() {
         mRefreshLayout.setRefreshing(true);
-        initData();
+        getData();
     }
 
     @Override
@@ -72,6 +78,20 @@ public class WelfareFragment extends CatFragment {
 
     @Override
     protected void initViewsAndEvents(View view) {
+        notDataView = ((CatActivity) mContext).getLayoutInflater().inflate(R.layout.empty_view, (ViewGroup) mRecyclerView.getParent(), false);
+        notDataView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                refreshData();
+            }
+        });
+        errorView = ((CatActivity) mContext).getLayoutInflater().inflate(R.layout.error_view, (ViewGroup) mRecyclerView.getParent(), false);
+        errorView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                refreshData();
+            }
+        });
         EventBus.getDefault().register(this);
         mAdapter = new WelfareAdapter(mContext, mList);
         mGirlService = Http.create(GirlService.class);
@@ -80,7 +100,7 @@ public class WelfareFragment extends CatFragment {
             public void onRefresh() {
                 mRefreshLayout.setRefreshing(true);
                 page = 1;
-                initData();
+                getData();
             }
         });
         mAdapter.setEnableLoadMore(true);
@@ -90,7 +110,7 @@ public class WelfareFragment extends CatFragment {
                 mRecyclerView.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        initData();
+                        getData();
                     }
                 }, 1000);
             }
@@ -119,7 +139,13 @@ public class WelfareFragment extends CatFragment {
         });
     }
 
-    public void initData() {
+    private void refreshData() {
+        mRefreshLayout.setRefreshing(true);
+        page = 1;
+        getData();
+    }
+
+    public void getData() {
         observable = mGirlService.getData(10, page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -136,7 +162,9 @@ public class WelfareFragment extends CatFragment {
 
             @Override
             public void onError(Throwable e) {
-
+                mRefreshLayout.setRefreshing(false);
+                mAdapter.setEmptyView(errorView);
+                CatLog.d("error>", e.getMessage());
             }
 
             @Override
@@ -167,10 +195,10 @@ public class WelfareFragment extends CatFragment {
     @Override
     protected void DestroyViewAndThing() {
         observable.unsubscribeOn(AndroidSchedulers.mainThread());
-            observable.unsubscribeOn(AndroidSchedulers.mainThread());
-            if (null != mDisposable){
-                mDisposable.dispose();
-            }
+        observable.unsubscribeOn(AndroidSchedulers.mainThread());
+        if (null != mDisposable) {
+            mDisposable.dispose();
+        }
         EventBus.getDefault().unregister(this);
     }
 }

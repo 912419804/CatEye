@@ -11,4 +11,11 @@
     <string name="item_android_source">来源：</string>
     <string name="content_title">标题</string>
     <string name="toast_intent_data_error">参数异常,请检查</string>
+
+
+
+    <string name="error">Network error</string>
+    <string name="network_err">Simulation network error</string>
+    <string name="empty_network_error">Network error, Click Retry</string>
+    <string name="empty_no_data">There is no data, Click Retry</string>
 </resources>
