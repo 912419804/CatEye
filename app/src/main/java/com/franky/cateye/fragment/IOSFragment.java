@@ -124,7 +124,8 @@ public class IOSFragment extends CatFragment {
         });
     }
 
-    private void refreshData() {
+    @Override
+    public void refreshData() {
         mRefreshLayout.setRefreshing(true);
         page = 1;
         getData();

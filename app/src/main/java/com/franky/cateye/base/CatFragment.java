@@ -94,7 +94,7 @@ public abstract class CatFragment extends Fragment{
     }
 
     protected abstract void onUserInvisible();
-
+    public void refreshData(){};
 
 
     protected abstract void initViewsAndEvents(View view);

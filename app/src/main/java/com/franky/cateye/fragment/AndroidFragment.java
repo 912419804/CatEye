@@ -121,7 +121,8 @@ public class AndroidFragment extends CatFragment {
         });
     }
 
-    private void refreshData() {
+    @Override
+    public void refreshData() {
         mRefreshLayout.setRefreshing(true);
         page = 1;
         getData();

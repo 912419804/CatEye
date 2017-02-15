@@ -41,6 +41,7 @@
         <activity android:name=".activity.CrashShowActivity"/>
         <activity android:name=".base.CatWebActivity"/>
         <service android:name=".service.DataService"/>
+        <receiver android:name=".receiver.NetworkReceiver"/>
         <!--友盟配置-->
         <meta-data
             android:name="UMENG_APPKEY"
