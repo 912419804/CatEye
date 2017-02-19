@@ -1,24 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/c_bg"
-              android:orientation="vertical"
-              tools:context=".activity.HomeActivity">
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                 xmlns:tools="http://schemas.android.com/tools"
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="match_parent"
+                                                 android:background="@color/c_bg"
+                                                 tools:context=".activity.HomeActivity">
+
+    <include layout="@layout/appbar_common"/>
 
     <FrameLayout
         android:id="@+id/fl_main"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         />
 
-
     <com.franky.cateye.view.tab.TabLayout
-        android:background="@color/c_white"
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="56dp"
+        android:layout_gravity="bottom"
+        app:layout_behavior="com.franky.cateye.base.FooterBehavior"
+        android:background="@color/c_white"
         />
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

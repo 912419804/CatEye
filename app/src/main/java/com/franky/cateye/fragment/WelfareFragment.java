@@ -195,8 +195,6 @@ public class WelfareFragment extends CatFragment {
 
     @Override
     protected void DestroyViewAndThing() {
-        observable.unsubscribeOn(AndroidSchedulers.mainThread());
-        observable.unsubscribeOn(AndroidSchedulers.mainThread());
         if (null != mDisposable) {
             mDisposable.dispose();
         }

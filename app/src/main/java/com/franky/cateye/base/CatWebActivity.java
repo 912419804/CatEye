@@ -1,6 +1,7 @@
 package com.franky.cateye.base;
 
 import android.content.Intent;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -25,12 +26,16 @@ public class CatWebActivity extends CatActivity {
     @BindView(R.id.gank_detail_progress)
     ProgressBar mProgressBar;
 
+    @BindView(R.id.tl_title)
+    Toolbar tl_title;
+
     private String url;
 
     @Override
     protected void initView() {
         super.initView();
         setContentView(R.layout.activity_webview);
+        setSupportActionBar(tl_title);
     }
 
     @Override

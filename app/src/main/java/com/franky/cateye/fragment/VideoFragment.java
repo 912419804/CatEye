@@ -172,7 +172,6 @@ public class VideoFragment extends CatFragment {
 
     @Override
     protected void DestroyViewAndThing() {
-        observable.unsubscribeOn(AndroidSchedulers.mainThread());
         if (null != mDisposable){
             mDisposable.dispose();
         }

@@ -1,10 +1,10 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/c_333</item>
-        <item name="colorPrimaryDark">@color/c_333</item>
+        <item name="colorPrimaryDark">@color/c_333</item><!--系统状态栏颜色-->
+        <item name="colorPrimary">@color/c_333</item><!--ToolBar栏颜色-->
         <!--<item name="colorPrimary">@color/colorPrimary</item>-->
         <!--<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
         <item name="colorAccent">@color/colorAccent</item>
@@ -16,10 +16,11 @@
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowFullscreen">true</item>
     </style>
-    <style name="Theme.HomeActivity" parent="Theme.AppCompat">
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowFullscreen">true</item>
-        <item name="android:windowLightStatusBar">true</item>
+
+    <style name="Theme.ToolBar" parent="AppTheme">
+        <item name="android:textColorPrimary">@color/c_white</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="bg">

@@ -7,6 +7,7 @@ import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.Toolbar;
 import android.widget.FrameLayout;
 
 import com.franky.cateye.R;
@@ -36,6 +37,8 @@ public class HomeActivity extends CatActivity implements TabLayout.OnTabClickLis
     FrameLayout fl_main;
     @BindView(R.id.tab_layout)
     TabLayout tab_layout;
+    @BindView(R.id.tl_title)
+    Toolbar tl_title;
     int index = 0;
     int lastIndex = 0;
     ArrayList<TabItem> tabs = new ArrayList<TabItem>(4);
@@ -49,7 +52,9 @@ public class HomeActivity extends CatActivity implements TabLayout.OnTabClickLis
     protected void initView() {
         super.initView();
         setContentView(R.layout.activity_home);
-        if (!NetworkUtils.isAvailableByPing()){
+        tl_title.setTitle(titles[index]);
+        setSupportActionBar(tl_title);
+        if (!NetworkUtils.isAvailableByPing()) {
             nwr = new NetworkReceiver();
             IntentFilter intentFilter = new IntentFilter();
             intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
@@ -79,7 +84,7 @@ public class HomeActivity extends CatActivity implements TabLayout.OnTabClickLis
         lastIndex = index;
         index = tabs.indexOf(tabItem);
         tab_layout.setCurrentTab(index);
-        setTitle(titles[index]);
+        tl_title.setTitle(titles[index]);
         addAndChangeFragment(fragments[index]);
     }
 
@@ -120,9 +125,9 @@ public class HomeActivity extends CatActivity implements TabLayout.OnTabClickLis
 
     @Override
     public void onNetworkConnected() {
-        CatLog.d("network","okok");
+        CatLog.d("network", "okok");
         for (CatFragment fragment : fragments) {
-            if (fragment.isAdded()){
+            if (fragment.isAdded()) {
                 fragment.refreshData();
             }
         }
