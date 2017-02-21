@@ -7,7 +7,7 @@
         <item name="colorPrimary">@color/c_333</item><!--ToolBar栏颜色-->
         <!--<item name="colorPrimary">@color/colorPrimary</item>-->
         <!--<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/c_333</item>
     </style>
 
     <!--解决启动白屏或者黑屏问题,在启动页加入该主题,缺点是点击启动图标后,

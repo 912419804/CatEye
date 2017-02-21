@@ -1,14 +1,22 @@
 package com.franky.cateye.activity;
 
+import android.Manifest;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.franky.cateye.R;
 import com.franky.cateye.base.CatActivity;
@@ -26,11 +34,17 @@ import com.franky.cateye.view.tab.TabLayout;
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.OnNeverAskAgain;
+import permissions.dispatcher.OnPermissionDenied;
+import permissions.dispatcher.OnShowRationale;
+import permissions.dispatcher.PermissionRequest;
+import permissions.dispatcher.RuntimePermissions;
 
 /**
  * 应用首页
  */
-
+@RuntimePermissions
 public class HomeActivity extends CatActivity implements TabLayout.OnTabClickListener, NetworkReceiver.NetworkStateListener {
 
     @BindView(R.id.fl_main)
@@ -61,6 +75,67 @@ public class HomeActivity extends CatActivity implements TabLayout.OnTabClickLis
             nwr.setNetworkStateListener(this);
             registerReceiver(nwr, intentFilter);
         }
+        HomeActivityPermissionsDispatcher.checkWithCheck(this);
+    }
+
+    @NeedsPermission({Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE})
+    void check() {
+        show("开启了SD卡权限和读取电话权限");
+    }
+
+    @OnShowRationale({Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE})
+    void checkOnShowRationale(final PermissionRequest request) {
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setPositiveButton("好的", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        request.proceed();
+                    }
+                })
+                .setNegativeButton("不给", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        request.cancel();
+                    }
+                })
+                .setCancelable(false)
+                .setMessage("本应用需要开启SD卡权限和读取电话权限")
+                .show();
+        ((TextView) dialog.findViewById(android.R.id.message)).setTextColor(ContextCompat.getColor(this, R.color.c_333));
+    }
+
+    @OnPermissionDenied({Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE})
+    void checkOnPermissionDenied() {
+        show("拒绝了开启SD卡权限和读取电话权限");
+    }
+
+    @OnNeverAskAgain({Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE})
+    void checkOnNeverAskAgain() {
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setPositiveButton("好的", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO: 2016/11/10 打开系统设置权限
+                        startActivity(new Intent(Settings.ACTION_APPLICATION_SETTINGS));
+                        dialog.cancel();
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .setCancelable(false)
+                .setMessage("您已经禁止了SD卡权限和读取电话状态权限，现在开启吗？")
+                .show();
+        ((TextView) dialog.findViewById(android.R.id.message)).setTextColor(ContextCompat.getColor(this, R.color.c_333));
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        HomeActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
 
